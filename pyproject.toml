@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pysearchlight"
+version = "1.0.0"
+authors = [
+  { name="Johannes Roth", email="johannes@roth24.de" },
+]
+description = "A simple and customizable implementation of the searchlight analysis method."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
