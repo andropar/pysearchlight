@@ -14,7 +14,7 @@ pip install pysearchlight
 
 PySearchlight takes care of moving the sphere across the data and applying the user-defined function to the data within the sphere. The user only needs to provide the data, the function to apply within the searchlight, and the radius of the searchlight sphere. The function should take a single argument, which is the data within the sphere centered at a voxel location. The function can also take additional arguments, which can be passed using `functools.partial`.
 
-Here is a simple example of how to use PySearchLight to train and evaluate classifier on data within a searchlight:
+Here is a simple example of how to use PySearchLight to train and evaluate a classifier on data within a searchlight:
 
 ```python
 import numpy as np

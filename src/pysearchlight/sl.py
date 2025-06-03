@@ -8,8 +8,12 @@ from typing import List, Callable, Tuple
 
 @jit(nopython=True, cache=True)
 def get_searchlight_data(data, coords):
-    """
-    Returns data in a sphere with radius self.radius at position x, y, z
+    """Return the data for each list of voxel indices in ``coords``.
+
+    ``coords`` should contain one iterable of voxel indices per sphere. Each
+    iterable lists the flattened indices of voxels belonging to that sphere. The
+    returned array therefore has shape ``(len(coords), len(coords[0]),
+    data.shape[1])``.
     """
     # Get coordinates of all voxels in sphere
     out = np.zeros((len(coords), len(coords[0]), data.shape[1]))
@@ -77,13 +81,17 @@ class SearchLight:
         x_shape, y_shape, z_shape = self.original_data_shape[:3]
 
         if coords is not None:
-            coords = np.array(coords)
+            coords = list(coords)
         elif self.mask is not None:
             print("Using mask to determine searchlight coordinates")
             coords = list(zip(*np.nonzero(self.mask)))
         else:
             print("Neither mask nor coordinates specified, using all voxels")
-            coords = itertools.product(range(x_shape), range(y_shape), range(z_shape))
+            coords = list(itertools.product(range(x_shape), range(y_shape), range(z_shape)))
+        # ``coords`` may originate from a generator (e.g. ``itertools.product``)
+        # which would be exhausted after computing ``sphere_coords`` below.  By
+        # converting it to a list we ensure it can be iterated over multiple
+        # times, both for computing sphere indices and for assigning results.
 
         results = np.zeros((x_shape, y_shape, z_shape, output_size))
 
