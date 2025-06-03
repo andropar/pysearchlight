@@ -5,10 +5,21 @@ from sklearn.svm import SVC
 
 
 def fit_clf(data, labels, clf=SVC()):
-    """
-    Returns classification accuracy for a single voxel (cross-validated). Labels can either be
-    a numpy array or a list of numpy arrays (in which case the classification accuracies for every
-    label array in the list is returned).
+    """Example searchlight function using a classifier.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        Data from one searchlight sphere with shape ``(n_voxels, n_samples)``.
+    labels : np.ndarray
+        Array of labels for the samples.
+    clf : sklearn.base.BaseEstimator, optional
+        Classifier instance used for cross validation.
+
+    Returns
+    -------
+    float
+        Mean cross-validation accuracy of ``clf`` for the given data.
     """
     data = np.nan_to_num(data)
 
