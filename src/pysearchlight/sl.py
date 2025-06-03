@@ -3,14 +3,13 @@ import itertools
 from joblib import Parallel, delayed
 import tqdm
 from numba import jit
-from typing import List, Callable, Tuple
+from typing import List, Callable, Tuple, Union, Optional
+from numpy.typing import NDArray
 
 
 @jit(nopython=True, cache=True)
-def get_searchlight_data(data, coords):
-    """
-    Returns data in a sphere with radius self.radius at position x, y, z
-    """
+def get_searchlight_data(data: NDArray[np.floating], coords: NDArray[np.int64]) -> NDArray[np.floating]:
+    """Return all voxel data for a list of sphere coordinates."""
     # Get coordinates of all voxels in sphere
     out = np.zeros((len(coords), len(coords[0]), data.shape[1]))
     for i, sphere_coords in enumerate(coords):
@@ -26,8 +25,12 @@ class SearchLight:
     """
 
     def __init__(
-        self, data: np.array, sl_fn: Callable, radius: int, mask: np.array = None
-    ):
+        self,
+        data: NDArray[np.floating],
+        sl_fn: Callable[[NDArray[np.floating]], Union[float, NDArray[np.floating]]],
+        radius: int,
+        mask: Optional[NDArray[np.int_]] = None,
+    ) -> None:
         """
         Parameters
         ----------
@@ -52,12 +55,12 @@ class SearchLight:
 
     def fit(
         self,
-        coords: List[Tuple] = None,
+        coords: Optional[List[Tuple[int, int, int]]] = None,
         output_size: int = 1,
         n_jobs: int = 1,
         n_chunks: int = 1,
         verbose: int = 1,
-    ) -> np.array:
+    ) -> NDArray[np.floating]:
         """
         Returns a 3D array with the classification accuracy for each voxel.
 
@@ -116,7 +119,7 @@ class SearchLight:
 
         return results
 
-    def get_sphere_coords(self, x, y, z):
+    def get_sphere_coords(self, x: int, y: int, z: int) -> NDArray[np.int_]:
         """
         Returns coordinates of all voxels in a sphere with radius self.radius
         at position x, y, z

@@ -1,1 +1,3 @@
-from .sl import Searchlight
+from .sl import SearchLight
+
+__all__ = ["SearchLight"]

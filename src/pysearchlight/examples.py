@@ -1,10 +1,15 @@
 import numpy as np
-import itertools
 from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC
+from typing import Union, List
+from numpy.typing import NDArray
 
 
-def fit_clf(data, labels, clf=SVC()):
+def fit_clf(
+    data: NDArray[np.floating],
+    labels: Union[NDArray, List[NDArray]],
+    clf: SVC = SVC(),
+) -> float:
     """
     Returns classification accuracy for a single voxel (cross-validated). Labels can either be
     a numpy array or a list of numpy arrays (in which case the classification accuracies for every
