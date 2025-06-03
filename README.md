@@ -55,3 +55,19 @@ results = sl.fit(
     verbose=1, # Verbosity level
 )
 ```
+
+## API
+
+`SearchLight` is the main interface of the package. It takes a 4D data array of
+shape `(x, y, z, samples)` and a function that will be applied to the data inside
+each spherical region. The most important arguments are:
+
+* `data` – the input array.
+* `sl_fn` – a callable that receives the data from one searchlight sphere and
+  returns a value (or an array of values) for that location.
+* `radius` – radius of the searchlight sphere in voxels.
+* `mask` – optional binary mask to restrict the analysis to specific voxels.
+
+Calling `fit` will return a 3D array with the computed result at every voxel
+location. The shape of the returned array is `(x, y, z, output_size)` where
+`output_size` is determined by the output of `sl_fn`.
