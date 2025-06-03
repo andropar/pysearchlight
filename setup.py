@@ -23,5 +23,5 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     python_requires=">=3.7, <4",
-    install_requires=["numpy", "joblib", "numba", "tqdm" "scikit-learn"],
+    install_requires=["numpy", "joblib", "numba", "tqdm", "scikit-learn"],
 )

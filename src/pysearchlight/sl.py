@@ -83,7 +83,12 @@ class SearchLight:
             coords = list(zip(*np.nonzero(self.mask)))
         else:
             print("Neither mask nor coordinates specified, using all voxels")
-            coords = itertools.product(range(x_shape), range(y_shape), range(z_shape))
+            # ``itertools.product`` returns a generator which can only be
+            # iterated over once.  Later in the function we iterate over the
+            # coordinates twice: first when computing the sphere indices and
+            # again when assigning the results back into the volume.  Convert
+            # the generator to a list so we can reuse it.
+            coords = list(itertools.product(range(x_shape), range(y_shape), range(z_shape)))
 
         results = np.zeros((x_shape, y_shape, z_shape, output_size))
 
